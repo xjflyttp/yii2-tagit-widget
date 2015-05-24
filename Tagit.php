@@ -43,9 +43,9 @@ class Tagit extends InputWidget
     protected function renderWidget()
     {
         if ($this->hasModel()) {
-            return Html::activeTextInput($this->model, is_array($this->attribute) ? implode(',', $this->attribute) : $this->attribute, $this->options);
+            return Html::activeHiddenInput($this->model, is_array($this->attribute) ? implode(',', $this->attribute) : $this->attribute, $this->options);
         } else {
-            return Html::textInput($this->name, is_array($this->value) ? implode(',', $this->value) : $this->value, $this->options);
+            return Html::hiddenInput($this->name, is_array($this->value) ? implode(',', $this->value) : $this->value, $this->options);
         }
     }
 
