@@ -1,14 +1,13 @@
 <?php
 
-/**
- * 
- * @author xjflyttp <xjflyttp@gmail.com>
- */
-
 namespace xj\tagit;
 
 use yii\web\AssetBundle;
 
+/**
+ * 
+ * @author xjflyttp <xjflyttp@gmail.com>
+ */
 class TagitAsset extends AssetBundle
 {
 
