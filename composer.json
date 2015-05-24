@@ -1,0 +1,22 @@
+{
+    "name": "xj/yii2-tagit-widget",
+    "description": "yii2-tagit-widget",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "xjflyttp",
+            "email": "xjflyttp@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "yiisoft/yii2": "*",
+        "bower-asset/tag-it": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "xj\\tagit\\": ""
+        }
+    }
+}
