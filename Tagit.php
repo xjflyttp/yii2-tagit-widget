@@ -31,10 +31,11 @@ class Tagit extends InputWidget
      */
     public function run()
     {
+        TagitAsset::register($this->getView());
+        $this->registerScript();
         if (true === $this->renderInput) {
             echo $this->renderWidget();
         }
-        $this->registerScript();
     }
 
     /**
@@ -51,10 +52,10 @@ class Tagit extends InputWidget
 
     protected function registerScript()
     {
-        $id = $this->getId();
+        $id = $this->options['id'];
         if ($this->clientOptions !== false) {
             $options = empty($this->clientOptions) ? '' : Json::htmlEncode($this->clientOptions);
-            $js = "jQuery('#{$id}').tagit({$options})";
+            $js = "jQuery('#{$id}').tagit({$options});";
             $this->getView()->registerJs($js);
         }
     }
