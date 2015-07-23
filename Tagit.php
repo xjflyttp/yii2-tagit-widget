@@ -12,7 +12,6 @@ use yii\widgets\InputWidget;
  */
 class Tagit extends InputWidget
 {
-
     /**
      *
      * @var bool Render Html Tag
@@ -30,9 +29,6 @@ class Tagit extends InputWidget
     public function init()
     {
         parent::init();
-        if (false === isset($this->options['id'])) {
-            $this->options['id'] = $this->getId();
-        }
 
         if (false === isset($this->clientOptions['fieldName'])) {
             $this->clientOptions['fieldName'] = $this->isSingleField() ? $this->getInputName() : $this->getInputName() . '[]';
@@ -59,7 +55,7 @@ class Tagit extends InputWidget
     {
         $inputName = $this->getInputName();
         $inputValue = $this->getInputValue();
-        $tagId = $this->options['id'];
+        $tagId = $this->getId();
 
         $out = Html::beginTag('ul', ['id' => $tagId]);
         foreach ($inputValue as $value) {
@@ -119,7 +115,7 @@ class Tagit extends InputWidget
 
     protected function registerScript()
     {
-        $id = $this->options['id'];
+        $id = $this->getId();
         $options = empty($this->clientOptions) ? '' : Json::encode($this->clientOptions);
         $js = "jQuery('#{$id}').tagit({$options});";
         $this->getView()->registerJs($js);
