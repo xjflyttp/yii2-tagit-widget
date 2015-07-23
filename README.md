@@ -14,14 +14,25 @@ composer.json
 In View
 ---------
 ```php
-xj\tagit\TagitAsset::register($this);
-
 //work with ActiveForm
 $form->field($model, 'tags')->widget(\xj\tagit\Tagit::className(), [
     'clientOptions' => [
-        'availableTags' => ['aaa', 'bbb']
-        //....
-    ]
+        'tagSource' => Url::to(['tag/get-autocomplete']),
+        'autocomplete' => [
+            'delay' => 200,
+            'minLength' => 1,
+        ],
+        'singleField' => true,
+        'beforeTagAdded' => new JsExpression(<<<EOF
+function(event, ui){
+    if (!ui.duringInitialization) {
+        console.log(event);
+        console.log(ui);
+    }
+}
+EOF
+),
+    ],
 ]);
 
 //work with hidden input
@@ -59,4 +70,10 @@ echo Tagit::widget([
         ],
     ]
 ]);
+```
+
+Assets
+---
+```php
+xj\tagit\TagitAsset::register($this);
 ```

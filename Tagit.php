@@ -7,7 +7,7 @@ use yii\helpers\Json;
 use yii\widgets\InputWidget;
 
 /**
- * 
+ *
  * @author xjflyttp <xjflyttp@gmail.com>
  */
 class Tagit extends InputWidget
@@ -15,9 +15,9 @@ class Tagit extends InputWidget
 
     /**
      *
-     * @var bool allow render input
+     * @var bool Render Html Tag
      */
-    public $renderInput = true;
+    public $renderTag = true;
 
     /**
      *
@@ -26,16 +26,30 @@ class Tagit extends InputWidget
      */
     public $clientOptions = [];
 
+
+    public function init()
+    {
+        parent::init();
+        if (false === isset($this->options['id'])) {
+            $this->options['id'] = $this->getId();
+        }
+
+        if (false === isset($this->clientOptions['fieldName'])) {
+            $this->clientOptions['fieldName'] = $this->isSingleField() ? $this->getInputName() : $this->getInputName() . '[]';
+        }
+
+        TagitAsset::register($this->getView());
+    }
+
     /**
      * Renders the widget.
      */
     public function run()
     {
-        TagitAsset::register($this->getView());
-        $this->registerScript();
-        if (true === $this->renderInput) {
+        if (true === $this->renderTag) {
             echo $this->renderWidget();
         }
+        $this->registerScript();
     }
 
     /**
@@ -43,21 +57,72 @@ class Tagit extends InputWidget
      */
     protected function renderWidget()
     {
-        if ($this->hasModel()) {
-            return Html::activeHiddenInput($this->model, is_array($this->attribute) ? implode(',', $this->attribute) : $this->attribute, $this->options);
-        } else {
-            return Html::hiddenInput($this->name, is_array($this->value) ? implode(',', $this->value) : $this->value, $this->options);
+        $inputName = $this->getInputName();
+        $inputValue = $this->getInputValue();
+        $tagId = $this->options['id'];
+
+        $out = Html::beginTag('ul', ['id' => $tagId]);
+        foreach ($inputValue as $value) {
+            $out = Html::tag('li', $value);
         }
+        $out .= Html::endTag('ul');
+
+        return $out;
+    }
+
+    private function isSingleField()
+    {
+        return isset($this->clientOptions['singleField']) ? boolval($this->clientOptions['singleField']) : false;
+    }
+
+    private function getSingleFieldDelimiter()
+    {
+        return isset($this->clientOptions['singleFieldDelimiter']) ? $this->clientOptions['singleFieldDelimiter'] : ',';
+    }
+
+    /**
+     * @return string
+     */
+    private function getInputName()
+    {
+        return $this->hasModel() ? Html::getInputName($this->model, $this->attribute) : $this->name;
+    }
+
+    /**
+     * @return array
+     */
+    private function getInputValue()
+    {
+        if ($this->hasModel()) {
+            if (false === empty($this->value)) {
+                $inputValue = $this->value;
+            } else {
+                $attributeName = $this->attribute;
+                $inputValue = $this->model->$attributeName;
+            }
+        } else {
+            $inputValue = $this->value;
+        }
+
+        //filter
+        $delimiter = $this->getSingleFieldDelimiter();
+        $outputValue = [];
+        if (empty($inputValue)) {
+            //pass
+        } elseif (is_string($inputValue)) {
+            $outputValue = implode($delimiter, $inputValue);
+        } elseif (is_array($inputValue)) {
+            $outputValue = $inputValue;
+        }
+        return $outputValue;
     }
 
     protected function registerScript()
     {
         $id = $this->options['id'];
-        if ($this->clientOptions !== false) {
-            $options = empty($this->clientOptions) ? '' : Json::encode($this->clientOptions);
-            $js = "jQuery('#{$id}').tagit({$options});";
-            $this->getView()->registerJs($js);
-        }
+        $options = empty($this->clientOptions) ? '' : Json::encode($this->clientOptions);
+        $js = "jQuery('#{$id}').tagit({$options});";
+        $this->getView()->registerJs($js);
     }
 
 }
