@@ -63,7 +63,7 @@ class Tagit extends InputWidget
 
         $out = Html::beginTag('ul', ['id' => $tagId]);
         foreach ($inputValue as $value) {
-            $out = Html::tag('li', $value);
+            $out .= Html::tag('li', $value);
         }
         $out .= Html::endTag('ul');
 
