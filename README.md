@@ -47,12 +47,16 @@ echo Tagit::widget([
     ]
 ]);
 
-//auto render
+//auto render with autocomplete
 echo Tagit::widget([
     'id' => 'myTagId3',
     'name' => 'mytag3',
     'clientOptions' => [
-        'availableTags' => ['aaa', 'bbb']
+        'tagSource' => Url::to(['tag/get-autocomplete']),
+        'autocomplete' => [
+            'delay' => 0,
+            'minLength' => 1,
+        ],
     ]
 ]);
 ```

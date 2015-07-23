@@ -54,7 +54,7 @@ class Tagit extends InputWidget
     {
         $id = $this->options['id'];
         if ($this->clientOptions !== false) {
-            $options = empty($this->clientOptions) ? '' : Json::htmlEncode($this->clientOptions);
+            $options = empty($this->clientOptions) ? '' : Json::encode($this->clientOptions);
             $js = "jQuery('#{$id}').tagit({$options});";
             $this->getView()->registerJs($js);
         }
