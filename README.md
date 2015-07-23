@@ -38,7 +38,7 @@ EOF
 //work with hidden input
 echo yii\helpers\Html::hiddenInput('mytag', '', ['id' => 'myTagId']);
 echo Tagit::widget([
-    'renderInput' => false,
+    'renderTag' => false,
     'id' => 'myTagId',
     'name' => 'mytag',
     'value' => ['a', 'b'],
@@ -50,7 +50,7 @@ echo Tagit::widget([
 //work with hidden input (input init value)
 echo yii\helpers\Html::hiddenInput('mytag2', 'a,b,c,d', ['id' => 'myTagId2']);
 echo Tagit::widget([
-    'renderInput' => false,
+    'renderTag' => false,
     'id' => 'myTagId2',
     'name' => 'mytag2',
     'clientOptions' => [
