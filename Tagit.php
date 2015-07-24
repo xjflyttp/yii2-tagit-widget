@@ -68,7 +68,7 @@ class Tagit extends InputWidget
 
     private function isSingleField()
     {
-        return isset($this->clientOptions['singleField']) ? boolval($this->clientOptions['singleField']) : false;
+        return isset($this->clientOptions['singleField']) ? (bool)($this->clientOptions['singleField']) : false;
     }
 
     private function getSingleFieldDelimiter()
