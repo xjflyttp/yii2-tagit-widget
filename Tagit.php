@@ -106,7 +106,7 @@ class Tagit extends InputWidget
         if (empty($inputValue)) {
             //pass
         } elseif (is_string($inputValue)) {
-            $outputValue = implode($delimiter, $inputValue);
+            $outputValue = explode($delimiter, $inputValue);
         } elseif (is_array($inputValue)) {
             $outputValue = $inputValue;
         }
