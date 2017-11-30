@@ -12,7 +12,6 @@ class TagitAsset extends AssetBundle
 {
 
     public $sourcePath = '@bower/tag-it';
-    public $basePath = '@webroot/assets';
     public $js = ['js/tag-it.js'];
     public $css = [
         'css/jquery.tagit.css',
